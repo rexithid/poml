@@ -1,0 +1,21 @@
+<script setup>
+defineProps({
+  title: { type: String, default: 'Lihat riwayat update' },
+});
+defineEmits(['click']);
+</script>
+
+<template>
+  <button
+    type="button"
+    @click="$emit('click')"
+    :title="title"
+    :aria-label="title"
+    class="inline-flex h-6 w-6 items-center justify-center rounded-md text-ink-400 hover:bg-ink-700 hover:text-signal-blue"
+  >
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  </button>
+</template>

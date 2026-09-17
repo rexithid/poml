@@ -1,0 +1,40 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  server:
+    build:
+      context: ./server
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/preorder-mlbb
+      JWT_SECRET: ${JWT_SECRET:-ganti-dengan-string-acak-yang-panjang}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      AR_USERNAME: ${AR_USERNAME:-ar}
+      AR_PASSWORD: ${AR_PASSWORD:-ar123}
+      DR_USERNAME: ${DR_USERNAME:-dr}
+      DR_PASSWORD: ${DR_PASSWORD:-dr123}
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN:-http://localhost:8080}
+    ports:
+      - "5000:5000"
+
+  client:
+    build:
+      context: ./client
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - "8080:80"
+
+volumes:
+  mongo_data:
